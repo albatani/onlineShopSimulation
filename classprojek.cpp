@@ -16,6 +16,15 @@ Product productList[maxProduct];
 Product productChosen;
 bool productIsChosen = false;
 
+
+void predefinedProduct()
+{
+    productList[productCount++] = {"ASUS TUF F15 FX506HC", "ASUS", "Laptop", 1199.99, 115};
+    productList[productCount++] = {"Lenovo LOQ 15 IRH-8", "LENOVO", "Laptop", 1399.90, 105};
+    productList[productCount++] = {"Resistor 1k", "Resistor", "Komponen", 500.00, 115};
+    //...
+}
+
 void displayProducts()
 {
     cout << "Available products : " << endl;
@@ -32,7 +41,43 @@ void displayProducts()
 
 void displayByCategory(int Typecategory)
 {
+    // ---
 }
+
+void displayByPrice() {
+    // Copying productList to tempProductList to not tampering with displayProduct index
+    Product tempProductList[productCount];
+    Product tempKey;
+    for (int i = 0; i < productCount; i++) {
+        tempProductList[i] = productList[i];
+    }
+
+    int key, j = productCount;
+    for (int i = 1; i < productCount; i++) {
+        key = tempProductList[i].productPrice;
+        tempKey = tempProductList[i];
+        j = i - 1;
+
+        while (j >= 0 && tempProductList[j].productPrice > key) {
+            tempProductList[j + 1] = tempProductList[j];
+            j = j - 1;
+        }
+        tempProductList[j + 1] = tempKey;
+    }
+
+    cout << "Available products : " << endl;
+    for (int i = 0; i < productCount; i++)
+    {
+        cout << "Name : " << tempProductList[i].productName;
+        cout << ", Brand : " << tempProductList[i].productBrand;
+        cout << ", category : " << tempProductList[i].productCategory;
+        cout << ", price : $" << tempProductList[i].productPrice;
+        cout << ", ID : " << tempProductList[i].productID << endl;
+    }
+    cout << endl;
+}
+
+
 struct User
 {
     string userName, userPass;
@@ -52,12 +97,6 @@ bool userAuthentication(string userName, string userPass)
     }
 }
 
-void predefinedProduct()
-{
-    productList[productCount++] = {"ASUS TUF F15 FX506HC", "ASUS", "Laptop", 1199.99, 115};
-    productList[productCount++] = {"Lenovo LOQ 15 IRH-8", "LENOVO", "Laptop", 1399.90, 105};
-    //...
-}
 
 int main()
 {
@@ -100,6 +139,9 @@ int main()
         case 2:
             break;
         case 3:
+            break;
+        case 4:
+            displayByPrice();
             break;
         case 7:
             cout << "exiting the program, goodbye";
